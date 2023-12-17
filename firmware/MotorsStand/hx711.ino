@@ -1,9 +1,6 @@
 #include "HX711.h"
 HX711 scale;
 
-#define DOUT_PIN 3
-#define SCK_PIN 2
-
 #define weight_of_standard  50.2   // указываем эталонный вес
 float calibration_factor = 19.27;
 float units;  // задаём переменную для измерений в граммах
@@ -16,7 +13,7 @@ void initTenzo() {
   scale.tare();
   scale.set_scale(calibration_factor);
 }
-float read() {
+float readThrust() {
   for (int i = 0; i < 10; i++) {     // усредняем показания, считав значения датчика 10 раз
     units += scale.get_units();  // суммируем показания 10 замеров
   }
@@ -24,7 +21,6 @@ float read() {
   ounces = units * 0.035274;  // переводим вес из унций в граммы
   Serial.print(ounces);       // выводим в монитор последовательного порта вес в граммах
   Serial.println(" grams");   // выводим текст в монитор последовательного порта
-  data.thrust = ounces;
   return ounces;
 }
 void calibration() {

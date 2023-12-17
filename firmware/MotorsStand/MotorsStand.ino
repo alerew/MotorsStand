@@ -3,10 +3,11 @@ Data data;
 
 void setup() {
   Serial.begin(9600);
-  initTenzo();
+  initSensors();
   //calibration();
 }
 
 void loop() {
-  read();
+  readSensors();
+  send();
 }
