@@ -1,6 +1,7 @@
 #define AMP_PIN A0
 #define VOLT_PIN A1
 #define VIBR_PIN A2
+#define MOTOR_PIN 5
 
 #define DOUT_PIN 3
 #define SCK_PIN 2
@@ -16,3 +17,4 @@ struct Data {
 #include "Timer.h"
 Timer sensorsTmr(100, true);
 Timer sendTmr(100, true);
+Timer lcdTmr(300, true);

@@ -5,7 +5,7 @@ ACS712 ampSen(AMP_PIN, CURRENT30A);
 VoltageSensor voltSen(VOLT_PIN, 30000, 7500);
 
 #include <Adafruit_MLX90614.h>
-Adafruit_MLX90614 tempSen;  // инициализация дачика
+Adafruit_MLX90614 tempSen;
 
 void readSensors() {
   if (sensorsTmr.isReady()) {

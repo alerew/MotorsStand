@@ -1,12 +1,24 @@
+String str;
 void send() {
   if (sendTmr.isReady()) {
-    String str = "";
-    str += "d ";
-    str += data.thrust;
-    str += " ";
-    str += data.amperage;
-    str += data.voltage;
-    str += ";";
+    str = "";
+    str += "d";
+    addValue(data.thrust);
+    addValue(data.amperage);
+    addValue(data.voltage);
+    addValue(data.vibration);
+    addValue(data.temp, ';');
     Serial.println(str);
   }
+}
+
+template<typename T>
+void addValue(T value){
+  str += value;
+  str += ',';
+}
+template<typename T>
+void addValue(T value, char end){
+  str += value;
+  str += end;
 }
