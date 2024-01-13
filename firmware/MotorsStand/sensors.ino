@@ -9,11 +9,11 @@ Adafruit_MLX90614 tempSen;
 
 void readSensors() {
   if (sensorsTmr.isReady()) {
-    data.thrust = readThrust();
+    //data.thrust = readThrust();
     data.amperage = ampSen.read();
     data.voltage = voltSen.read();
     data.vibration = analogRead(VIBR_PIN);
-    data.temp = tempSen.readObjectTempC();
+    //data.temp = tempSen.readObjectTempC();
   }
 }
 

@@ -1,10 +1,11 @@
 #include "data.h"
 Data data;
+Settings settings;
 
 
 void setup() {
   Serial.begin(9600);
-  initSensors();
+  //initSensors();
   initLcd();
   //initMotor();
   //calibration();
@@ -12,5 +13,7 @@ void setup() {
 
 void loop() {
   readSensors();
+  readEnc();
   //send();
+  showMenu();
 }

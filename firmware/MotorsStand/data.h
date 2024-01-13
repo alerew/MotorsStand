@@ -6,6 +6,10 @@
 #define DOUT_PIN 3
 #define SCK_PIN 2
 
+#define S1_PIN 6
+#define S2_PIN 7
+#define BTN_PIN 8
+
 struct Data {
   float thrust = 0;  // тяга
   float amperage = 0;
@@ -14,7 +18,17 @@ struct Data {
   byte temp = 0;
 };
 
+struct Settings{
+  byte motor = 0;
+  byte value = 0;
+};
+
 #include "Timer.h"
 Timer sensorsTmr(100, true);
 Timer sendTmr(100, true);
 Timer lcdTmr(300, true);
+
+//////////////// МЕНЮ ////////////////
+int8_t arrowPos = 0;
+byte page = 0;
+char cursor = 126;
