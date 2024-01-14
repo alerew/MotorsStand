@@ -31,4 +31,5 @@ Timer lcdTmr(300, true);
 //////////////// МЕНЮ ////////////////
 int8_t arrowPos = 0;
 byte page = 0;
-char cursor = 126;
+char cursors[] = {126, 62};
+byte controlState = 0;

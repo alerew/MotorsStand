@@ -1,24 +1,25 @@
-String str;
 void send() {
+#if SERIAL == 1
   if (sendTmr.isReady()) {
-    str = "";
+    String str;
     str += "d";
-    addValue(data.thrust);
-    addValue(data.amperage);
-    addValue(data.voltage);
-    addValue(data.vibration);
-    addValue(data.temp, ';');
+    addValue(str, data.thrust);
+    addValue(str, data.amperage);
+    addValue(str, data.voltage);
+    addValue(str, data.vibration);
+    addValue(str, data.temp, ';');
     Serial.println(str);
   }
+#endif
 }
 
 template<typename T>
-void addValue(T value){
-  str += value;
-  str += ',';
+void addValue(String& str, T value) {
+  addValue(str, value, ',');
 }
+
 template<typename T>
-void addValue(T value, char end){
+void addValue(String& str, T value, char end) {
   str += value;
   str += end;
 }
