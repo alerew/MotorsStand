@@ -26,8 +26,8 @@ struct Settings{
 };
 
 #include "Timer.h"
-Timer sensorsTmr(100, true);
-Timer sendTmr(100, true);
+Timer sensorsTmr(300, true);
+Timer sendTmr(500, true);
 Timer lcdTmr(300, true);
 
 //////////////// МЕНЮ ////////////////

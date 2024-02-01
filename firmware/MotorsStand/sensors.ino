@@ -14,8 +14,8 @@ Adafruit_MLX90614 tempSen;
 
 void readSensors() {
   if (sensorsTmr.isReady()) {
-    data.thrust = readThrust();
-    data.amperage = ampSen.read();
+    data.thrust = abs(readThrust());
+    data.amperage = abs(ampSen.read());
     data.voltage = voltSen.read();
     data.vibration = analogRead(VIBR_PIN);
     data.rpm = tacho.getRPM();

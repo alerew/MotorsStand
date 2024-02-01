@@ -27,6 +27,9 @@ void readEnc() {
           controlState = 0;
         }
         break;
+      //case EB_HOLD:
+        //tare();
+        //break;
     }
   }
 }
@@ -36,7 +39,7 @@ void setSettings(int8_t increment){
       settings.motor = constrain(settings.motor + increment, 0, 1); 
       break;
     case 1:
-      settings.value = constrain(settings.value + increment, 0, 255); 
+      settings.value = constrain(settings.value + increment, 0, 180); 
       break;
   }
 }

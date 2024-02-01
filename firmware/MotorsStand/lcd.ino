@@ -16,7 +16,7 @@ void showMenu() {
 #if LCD == 1
   if (!lcdTmr.isReady()) return;
   page = constrain(page, 0, 1);
-  arrowPos = constrain(arrowPos, 0, 1);
+  arrowPos = constrain(arrowPos, 0, page == 0 ? 3 : 1);
 
   lcd.home();
   if (page == 0) {
@@ -34,12 +34,22 @@ void mainMenu() {
     case 0:
       printData(F("Thrust"), data.thrust);
       lcd.setCursor(0, 1);
-      printData(F("Power"), data.amperage * data.voltage);
+      printData(F("Power"), (float)(data.amperage * data.voltage));
       break;
     case 1:
       printData(F("Temp"), data.temp, 223);
       lcd.setCursor(0, 1);
       printData(F("Vibration"), data.vibration);
+      break;
+    case 2:
+      printData(F("RPM"), data.rpm);
+      lcd.setCursor(0, 1);
+      printData(F("Amperage"), data.amperage);
+      break;
+    case 3:
+      printData(F("Voltage"), data.voltage);
+      lcd.setCursor(0, 1);
+      lcd.print(F("                "));
       break;
   }
 }
@@ -72,6 +82,6 @@ void build(String& s, int8_t pos, const String& name, const String& data, char e
   s += ": ";
   s += data;
   s += end;
-  s += "    ";
+  s += "        ";
 }
 #endif

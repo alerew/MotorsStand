@@ -3,9 +3,9 @@ Data data;
 Settings settings;
 
 #define TENZO 1
-#define TEMP 1
+#define TEMP 0
 #define LCD 1
-#define SERIAL 1
+#define SERIAL 0
 
 void setup() {
   Serial.begin(9600);
