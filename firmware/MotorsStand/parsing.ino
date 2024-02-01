@@ -7,7 +7,8 @@ void send() {
     addValue(str, data.amperage);
     addValue(str, data.voltage);
     addValue(str, data.vibration);
-    addValue(str, data.temp, ';');
+    addValue(str, data.temp);
+    addValue(str, data.rpm, ';');
     Serial.println(str);
   }
 #endif

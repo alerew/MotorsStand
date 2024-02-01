@@ -10,7 +10,6 @@ public:
   }
   float filter(float newVal) {
     filt += (newVal - filt) * _k;
-    Serial.println("filt1");
     return filt;
   }
   setK(float k) {

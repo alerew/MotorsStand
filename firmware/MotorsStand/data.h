@@ -2,9 +2,10 @@
 #define VOLT_PIN A1
 #define VIBR_PIN A2
 #define MOTOR_PIN 5
+#define DIST_PIN 2
 
 #define DOUT_PIN 3
-#define SCK_PIN 2
+#define SCK_PIN 4
 
 #define S1_PIN 6
 #define S2_PIN 7
@@ -16,6 +17,7 @@ struct Data {
   float voltage = 0;
   uint16_t vibration = 0;
   byte temp = 0;
+  uint16_t rpm = 0;
 };
 
 struct Settings{
