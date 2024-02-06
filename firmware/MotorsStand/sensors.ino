@@ -17,7 +17,7 @@ void readSensors() {
     data.thrust = abs(readThrust());
     data.amperage = abs(ampSen.read());
     data.voltage = voltSen.read();
-    data.vibration = analogRead(VIBR_PIN);
+    data.vibration = 1023 - analogRead(VIBR_PIN);
     data.rpm = tacho.getRPM();
 #if TEMP == 1
     data.temp = tempSen.readObjectTempC();

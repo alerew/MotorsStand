@@ -1,6 +1,4 @@
 #include "data.h"
-Data data;
-Settings settings;
 
 #define TENZO 1
 #define TEMP 0

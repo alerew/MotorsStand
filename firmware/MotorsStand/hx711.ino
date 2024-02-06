@@ -50,3 +50,8 @@ void calibration() {
   Serial.println(calibration_factor);
 #endif
 }
+void tare() {
+#if TENZO == 1
+  scale.tare();
+#endif
+}

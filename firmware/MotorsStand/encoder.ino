@@ -26,20 +26,18 @@ void readEnc() {
           arrowPos = 0;
           controlState = 0;
         }
+        if (enc.clicks == 3) tare();
         break;
-      //case EB_HOLD:
-        //tare();
-        //break;
     }
   }
 }
-void setSettings(int8_t increment){
-  switch(arrowPos){
+void setSettings(int8_t increment) {
+  switch (arrowPos) {
     case 0:
-      settings.motor = constrain(settings.motor + increment, 0, 1); 
+      settings.motor = constrain(settings.motor + increment, 0, 1);
       break;
     case 1:
-      settings.value = constrain(settings.value + increment, 0, 180); 
+      settings.value = constrain(settings.value + increment, 0, 180);
       break;
   }
 }
