@@ -6,23 +6,19 @@ HX711 scale;
 #define weight_of_standard 50.2  // указываем эталонный вес
 float calibration_factor = 19.27;
 float units;  // задаём переменную для измерений в граммах
-float ounces;
-
-#include "Filter.h"
-Filter filt(0.7);
+int16_t ounces;
 
 #endif
 
 void initTenzo() {
 #if TENZO == 1
-  delay(500);
   scale.begin(DOUT_PIN, SCK_PIN);  // инициируем работу с платой HX711, указав номера выводов Arduino, к которым подключена плата
   scale.set_scale();               // не калибруем полученные значения
   scale.tare();
   scale.set_scale(calibration_factor);
 #endif
 }
-float readThrust() {
+int16_t readThrust() {
 #if TENZO == 1
 
   /*for (int i = 0; i < 10; i++) {  // усредняем показания, считав значения датчика 10 раз
@@ -30,7 +26,7 @@ float readThrust() {
   }
   units /= 10;                // усредняем показания, разделив сумму значений на 10
   */
-  units = filt.filter(scale.get_units());
+  units = scale.get_units();
   ounces = units * 0.035274;  // переводим вес из унций в граммы
   return ounces;
 
@@ -40,6 +36,7 @@ float readThrust() {
 }
 void calibration() {
 #if TENZO == 1
+
   Serial.println("You have 10 seconds to set your known load");                  // выводим в монитор порта текст о том, что у вас есть 10 секунд для установки эталонного веса на весы
   delay(10000);                                                                  // ждём 10 секунд
   Serial.print("calibration factor: ");                                          // выводим текст в монитор поседовательного порта
@@ -48,6 +45,7 @@ void calibration() {
   }
   calibration_factor = calibration_factor / 10;  // делим сумму на количество измерений
   Serial.println(calibration_factor);
+  
 #endif
 }
 void tare() {

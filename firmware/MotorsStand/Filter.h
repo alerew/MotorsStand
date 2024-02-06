@@ -1,21 +1,29 @@
 #pragma once
-#define EXP_RUNNING_AVERAGE 0
-#define MIDLE_ARIFM 1
-
 
 class Filter {
 public:
   Filter(float k = 1) {
     _k = k;
   }
-  float filter(float newVal) {
-    filt += (newVal - filt) * _k;
-    return filt;
+  int32_t set(int32_t newVal) {
+    value = newVal;
+    return fvalue;
   }
-  setK(float k) {
+  int32_t get() {
+    return fvalue;
+  }
+  void tick() {
+    if (millis() - tmr >= 30) {
+      fvalue += (value - fvalue) / _k;
+      tmr = millis();
+    }
+  }
+  void setK(float k) {
     _k = k;
   }
 private:
-  float _k = 1;
-  float filt = 0;
+  byte _k = 1;
+  int32_t fvalue = 0;
+  int32_t value = 0;
+  uint32_t tmr = 0;
 };
