@@ -3,24 +3,22 @@ void send() {
   if (sendTmr.isReady()) {
     String str;
     //str += "d";
-    addValue(str, data.thrust);
-    addValue(str, data.amperage);
-    addValue(str, data.voltage);
-    addValue(str, data.vibration);
-    addValue(str, data.temp);
-    addValue(str, data.rpm, ';');
+    addValue(str, TO_STR(data.thrust));
+    addValue(str, TO_STR(data.amperage));
+    addValue(str, TO_STR(data.voltage));
+    addValue(str, TO_STR(data.vibration));
+    addValue(str, TO_STR(data.temp));
+    addValue(str, TO_STR(data.rpm), ';');
     Serial.println(str);
   }
 #endif
 }
 
-template<typename T>
-void addValue(String& str, T& value) {
+void addValue(String& str, const String& value) {
   addValue(str, value, ',');
 }
 
-template<typename T>
-void addValue(String& str, T& value, char end) {
+void addValue(String& str, const String& value, char end) {
   str += value;
   str += end;
 }

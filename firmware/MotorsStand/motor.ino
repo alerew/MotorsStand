@@ -1,7 +1,7 @@
 #include <Servo.h>
-Servo motor;
+static Servo motor;
 
-byte lastVal = 0;
+static byte lastVal = 0;
 
 void initMotor() {
   motor.attach(MOTOR_PIN);

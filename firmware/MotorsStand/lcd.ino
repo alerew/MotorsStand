@@ -16,13 +16,13 @@ void showMenu() {
 #if LCD == 1
   if (lcdTmr.isReady()) {
     page = constrain(page, 0, 1);
-    arrowPos = constrain(arrowPos, 0, page == 0 ? 3 : 1);
+    arrowPos = constrain(arrowPos, 0, page == 0 ? 3 : 1);     // ограничиваем положение указателя
 
     lcd.home();
     if (page == 0) {
-      mainMenu();
+      mainMenu();       // главное меню
     } else if (page == 1) {
-      settingsMenu();
+      settingsMenu();   // меню настроек
     }
   }
 #endif
@@ -33,22 +33,22 @@ void showMenu() {
 void mainMenu() {
   switch (arrowPos) {
     case 0:
-      printData(F("Thrust"), data.thrust);
+      printData(F("Thrust"), TO_STR(data.thrust));
       lcd.setCursor(0, 1);
-      printData(F("Power"), data.power);
+      printData(F("Power"), TO_STR(data.power));
       break;
     case 1:
-      printData(F("Temp"), data.temp, 223);
+      printData(F("Temp"), TO_STR(data.temp), 223);
       lcd.setCursor(0, 1);
-      printData(F("Vibration"), data.vibration);
+      printData(F("Vibration"), TO_STR(data.vibration));
       break;
     case 2:
-      printData(F("RPM"), data.rpm);
+      printData(F("RPM"), TO_STR(data.rpm));
       lcd.setCursor(0, 1);
-      printData(F("Amperage"), data.amperage);
+      printData(F("Amperage"), TO_STR(data.amperage));
       break;
     case 3:
-      printData(F("Voltage"), data.voltage);
+      printData(F("Voltage"), TO_STR(data.voltage));
       lcd.setCursor(0, 1);
       lcd.print(F("                "));
       break;
@@ -57,20 +57,18 @@ void mainMenu() {
 void settingsMenu() {
   printData(0, F("Motor"), (settings.motor ? F("On") : F("Off")));
   lcd.setCursor(0, 1);
-  printData(1, F("Value"), settings.value);
+  printData(1, F("Value"), TO_STR(settings.value));
 }
 
-template<typename T>
-void printData(const String& name, T& data) {  // lcd.print($"{name}: {data}    ")
-  printData(-1, name, (String)data, ' ');
+
+void printData(const String& name, const String& data) {  // lcd.print($"{name}: {data}    ")
+  printData(-1, name, data, ' ');
 }
-template<typename T>
-void printData(const String& name, T& data, char end) {  // lcd.print($"{name}: {data}{end}    ")
-  printData(-1, name, (String)data, end);
+void printData(const String& name, const String& data, char end) {  // lcd.print($"{name}: {data}{end}    ")
+  printData(-1, name, data, end);
 }
-template<typename T>
-void printData(int8_t pos, const String& name, T data) {  // lcd.print($"{pos==arrowPos ? '>' : ' '}{name}: {data}    ")
-  printData(pos, name, (String)data, ' ');
+void printData(int8_t pos, const String& name, const String& data) {  // lcd.print($"{pos==arrowPos ? '>' : ' '}{name}: {data}    ")
+  printData(pos, name, data, ' ');
 }
 void printData(int8_t pos, const String& name, const String& data, char end) {
   String s;

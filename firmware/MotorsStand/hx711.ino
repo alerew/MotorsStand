@@ -3,10 +3,10 @@
 #include "HX711.h"
 HX711 scale;
 
-#define weight_of_standard 50.2  // указываем эталонный вес
-float calibration_factor = 19.27;
-float units;  // задаём переменную для измерений в граммах
-int16_t ounces;
+#define weight_of_standard 50.2     // указываем эталонный вес для калибровки
+static float calibration_factor = 19.27;
+static float units;      // задаём переменную для измерений в граммах
+static int16_t ounces;
 
 #endif
 
@@ -43,7 +43,7 @@ void calibration() {
   for (int i = 0; i < 10; i++) {                                                 // запускаем цикл, в котором
     calibration_factor += scale.get_units() / (weight_of_standard / 0.035274f);  // считываем значение с тензодатчика и переводим его в граммы
   }
-  calibration_factor = calibration_factor / 10;  // делим сумму на количество измерений
+  calibration_factor = calibration_factor / 10;   // делим сумму на количество измерений
   Serial.println(calibration_factor);
   
 #endif

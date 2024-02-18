@@ -12,8 +12,6 @@ Tachometer tachometer;
 Adafruit_MLX90614 tempSen;
 #endif
 
-#include "Filter.h"
-Filter filt(2);
 void readSensors() {
   if (sensorsTmr.isReady()) {
     data.thrust = abs(filt.set(readThrust()));

@@ -7,16 +7,16 @@
 
 void setup() {
   Serial.begin(9600);
-  initSensors();
-  initLcd();
-  initMotor();
+  initSensors();      // инициализация датчиков
+  initLcd();          // инициализация дисплея
+  initMotor();        // инициализация мотора
   //calibration();
 }
 
 void loop() {
-  readSensors();
-  send();
-  readEnc();
-  showMenu();
-  motorTick();
+  readSensors();      // чтение показаний с датчиков
+  send();             // отправка показаний с датчиков
+  readEnc();          // энкодер и логика курсора
+  showMenu();         // вывод на дисплей
+  motorTick();        // вращение мотора
 }

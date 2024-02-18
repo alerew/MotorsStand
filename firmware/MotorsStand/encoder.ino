@@ -1,21 +1,24 @@
+#if LCD
 #include <EncButton.h>
 EncButtonT<S1_PIN, S2_PIN, BTN_PIN> enc;
+#endif
 
 void readEnc() {
+#if LCD
   static uint32_t tmr = 0;
   static bool start = false;
   if (enc.tick()) {
     switch (enc.action()) {
       case EB_TURN:
-        if (enc.pressing()) {
+        if (enc.pressing()) {       // поврот с нажатием
           page += enc.dir();
           arrowPos = 0;
           controlState = 0;
         } else {
           if (page == 0 || controlState == 0) {
-            arrowPos += enc.dir();
+            arrowPos += enc.dir();      // перелистываем меню
           } else {
-            setSettings(enc.fast() ? (enc.dir() * 10) : enc.dir());
+            setSettings(enc.fast() ? (enc.dir() * 10) : enc.dir());       // меняем значение в меню
           }
         }
         start = false;
@@ -35,7 +38,7 @@ void readEnc() {
         if (!start) {
           start = true;
           tmr = millis();
-        } else if (millis() - tmr >= 2000) {
+        } else if (millis() - tmr >= 2000) {        // экстренное выключение мотора
           settings.value = 0;
           settings.motor = 0;
           start = false;
@@ -46,7 +49,10 @@ void readEnc() {
         break;
     }
   }
+#endif
 }
+
+#if LCD
 void setSettings(int8_t increment) {
   switch (arrowPos) {
     case 0:
@@ -58,3 +64,4 @@ void setSettings(int8_t increment) {
       break;
   }
 }
+#endif
