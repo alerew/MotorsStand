@@ -14,7 +14,7 @@ Adafruit_MLX90614 tempSen;
 
 void readSensors() {
   if (sensorsTmr.isReady()) {
-    data.thrust = abs(filt.set(readThrust()));
+    data.thrust = (uint16_t)abs(filt.set(readThrust()));
     data.amperage = abs(ampSen.read());
     data.voltage = voltSen.read();
     data.power = data.amperage * data.voltage;

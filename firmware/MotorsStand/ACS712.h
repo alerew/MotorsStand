@@ -12,11 +12,11 @@ public:
     k = type;
   }
   float read() {
-    int value = 0;
+    int16_t value = 0;
     for (byte i = 0; i < 16; i++) {
       value += analogRead(_pin);
     }
-    value /= 16;
+    value >>= 4;
     float amperage = value * 5.0 / 1023.0;
     amperage = (amperage - 2.5) / k;
     return amperage;

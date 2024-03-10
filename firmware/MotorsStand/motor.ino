@@ -1,7 +1,6 @@
 #include <Servo.h>
 static Servo motor;
 
-static byte lastVal = 0;
 
 void initMotor() {
   motor.attach(MOTOR_PIN);
@@ -14,6 +13,7 @@ void stopMotor() {
   motor.write(0);
 }
 void motorTick() {
+  static byte lastVal = 0;
   if (settings.motor) {
     if (lastVal != settings.value) {
       writeMotor(settings.value);

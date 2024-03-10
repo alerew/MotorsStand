@@ -79,10 +79,10 @@ void printData(int8_t pos, const String& name, const String& data, char end) {
 void build(String& s, int8_t pos, const String& name, const String& data, char end) {
   if (pos >= 0) s += (pos == arrowPos) ? cursors[controlState] : ' ';
   s += name;
-  s += ": ";
+  s += F(": ");
   s += data;
   s += end;
-  s += "       ";
+  s += F("       ");
 }
 
 #endif

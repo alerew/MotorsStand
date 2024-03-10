@@ -30,12 +30,17 @@ Data data;
 Settings settings;
 
 #include "Filter.h"
-Filter filt(2);     // фильтр тензодатчика
+Filter filt(0.5);     // фильтр тензодатчика
 
 #include "Timer.h"
-Timer sensorsTmr(300, true);
-Timer sendTmr(500, true);
-Timer lcdTmr(500, true);
+
+// Timer sensorsTmr(300, true);
+// Timer sendTmr(1000, true);
+// Timer lcdTmr(500, true);
+
+TimerT<300, uint16_t> sensorsTmr;
+TimerT<1000, uint16_t> sendTmr;
+TimerT<500, uint16_t> lcdTmr;
 
 //////////////// МЕНЮ ////////////////
 int8_t arrowPos = 0;          // положение указателя
