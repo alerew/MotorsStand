@@ -48,29 +48,3 @@ private:
   uint32_t _interval = 0;
   boolean _active = false;
 };
-
-// Упрощённый класс таймера без изменения периода и остановки
-
-template<uint32_t interval, typename T = uint32_t>
-class TimerT {
-public:
-  TimerT() {
-    reset();
-  }
-  bool isReady() {
-    if (millis() - _tmr >= interval) {
-      reset();
-      return true;
-    }
-    return false;
-  }
-  void force() {
-    _tmr = millis() - interval;
-  }
-  void reset() {
-    _tmr = millis();
-  }
-
-private:
-  T _tmr = 0;
-};

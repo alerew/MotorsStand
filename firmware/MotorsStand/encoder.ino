@@ -5,23 +5,22 @@ EncButtonT<S1_PIN, S2_PIN, BTN_PIN> enc;
 
 void readEnc() {
 #if LCD
-  static uint32_t tmr = 0;
-  static bool start = false;
+  static Timer timer(1000, false);      // таймер для экстренного выключения мотора
   if (enc.tick()) {
     switch (enc.action()) {
       case EB_TURN:
-        if (enc.pressing()) {       // поврот с нажатием
+        if (enc.pressing()) {  // поврот с нажатием
           page += enc.dir();
           arrowPos = 0;
           controlState = 0;
         } else {
           if (page == 0 || controlState == 0) {
-            arrowPos += enc.dir();      // перелистываем меню
+            arrowPos += enc.dir();  // перелистываем меню
           } else {
-            setSettings(enc.fast() ? (enc.dir() * 10) : enc.dir());       // меняем значение в меню
+            setSettings(enc.fast() ? (enc.dir() * 10) : enc.dir());  // меняем значение в меню
           }
         }
-        start = false;
+        timer.stop();
         break;
       case EB_CLICK:
         controlState = controlState == 0 ? 1 : 0;
@@ -31,21 +30,19 @@ void readEnc() {
           page = 0;
           arrowPos = 0;
           controlState = 0;
-        }
-        if (enc.clicks == 3) tare();
+        } else if (enc.clicks == 3) tare();
         break;
       case EB_STEP:
-        if (!start) {
-          start = true;
-          tmr = millis();
-        } else if (millis() - tmr >= 2000) {        // экстренное выключение мотора
+        if (!timer.running()) {
+          timer.restart();
+        } else if (timer.isReady()) {  // экстренное выключение мотора
           settings.value = 0;
           settings.motor = 0;
-          start = false;
+          timer.stop();
         }
         break;
       case EB_REL_HOLD:
-        start = false;
+        timer.stop();
         break;
     }
   }

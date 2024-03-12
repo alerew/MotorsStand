@@ -5,6 +5,8 @@ class Filter {
 public:
   Filter(float k = 1) {
     _k = k;
+    tmr.setInterval(30);
+    tmr.restart();
   }
   int16_t set(uint16_t newVal) {
     value = newVal;
@@ -25,5 +27,5 @@ private:
   float _k = 1;
   int16_t fvalue = 0;
   int16_t value = 0;
-  TimerT<30, byte> tmr;
+  Timer tmr;
 };

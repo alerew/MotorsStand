@@ -4,7 +4,7 @@
 HX711 scale;
 
 #define weight_of_standard 50.2     // указываем эталонный вес для калибровки
-static float calibration_factor = 19.27;
+static float calibration_factor = 9;      //19.27
 static float units;      // задаём переменную для измерений в граммах
 static int16_t ounces;
 

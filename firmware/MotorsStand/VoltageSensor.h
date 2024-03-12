@@ -11,7 +11,7 @@ public:
   float read() {
     uint16_t value = 0;
     for (byte i = 0; i < 16; i++) {
-      value = analogRead(_pin);
+      value += analogRead(_pin);
     }
     value >>= 4;
     float voltage = value * refVoltage / 1023.0;
