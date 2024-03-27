@@ -23,6 +23,10 @@ void readSensors() {
 #if TEMP == 1
     data.temp = tempSen.readObjectTempC();
 #endif
+    if (settings.motor == 0 || data.power == 0 || data.thrust == 0)
+      data.efficiency = 0;
+    else
+      data.efficiency = data.thrust / data.power;
   }
   filt.tick();
 }
@@ -33,8 +37,7 @@ void initSensors() {
 #if TEMP == 1
   tempSen.begin();
 #endif
-  
 }
-void tacho(){
+void tacho() {
   tachometer.tick();
 }

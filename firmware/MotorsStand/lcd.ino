@@ -50,7 +50,7 @@ void mainMenu() {
     case 3:
       printData(F("Voltage"), TO_STR(data.voltage));
       lcd.setCursor(0, 1);
-      lcd.print(F("                "));
+      printData(F("Efficiency"), TO_STR(data.efficiency));
       break;
   }
 }

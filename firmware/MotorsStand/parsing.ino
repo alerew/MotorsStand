@@ -10,7 +10,8 @@ void send() {
     addValue(str, TO_STR(data.vibration));
     addValue(str, TO_STR(data.temp));
     addValue(str, TO_STR(data.rpm));
-    addValue(str, TO_STR(settings.value), ';');
+    addValue(str, TO_STR(settings.value));
+    addValue(str, TO_STR(settings.motor), ';');
 
     Serial.println(str);
   }
