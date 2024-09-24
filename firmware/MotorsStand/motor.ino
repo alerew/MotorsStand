@@ -15,6 +15,8 @@ void stopMotor() {
 void motorTick() {
   static byte lastVal = 0;
   if (settings.motor) {
+    autoMotorTick();
+
     if (lastVal != settings.value) {
       writeMotor(settings.value);
       lastVal = settings.value;
@@ -23,6 +25,17 @@ void motorTick() {
     if (lastVal != 0) {
       stopMotor();
       lastVal = 0;
+      settings.mode = 0;
+    }
+  }
+}
+void autoMotorTick() {  // автоматическое измерение
+  if (settings.mode == 1 && autoTmr.isReady()) {
+    settings.value++;
+    if (settings.value > 180) {
+      settings.mode = 0;
+      settings.value = 0;
+      settings.motor = 0;
     }
   }
 }

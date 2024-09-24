@@ -11,7 +11,8 @@ void send() {
     addValue(str, TO_STR(data.temp));
     addValue(str, TO_STR(data.rpm));
     addValue(str, TO_STR(settings.value));
-    addValue(str, TO_STR(settings.motor), ';');
+    addValue(str, TO_STR(settings.motor));
+    addValue(str, TO_STR(settings.mode), ';');
 
     Serial.println(str);
   }
@@ -55,6 +56,9 @@ byte parsing() {
           break;
         case 2:
           settings.motor = constrain(recData[1], 0, 1);
+          break;
+        case 3:
+          settings.mode = constrain(recData[1], 0, 1);
           break;
       }
       return count;

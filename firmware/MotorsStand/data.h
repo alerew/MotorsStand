@@ -25,6 +25,7 @@ struct Data {
 struct Settings {
   byte motor = 0;
   byte value = 0;
+  byte mode = 0;    // 0 - ручное измерение, 1 - авто измерение
 };
 
 Data data;
@@ -38,6 +39,7 @@ Filter filt(0.5);  // фильтр тензодатчика
 Timer sensorsTmr(500, true);
 Timer sendTmr(1000, true);
 Timer lcdTmr(500, true);
+Timer autoTmr(100, false);
 
 
 //////////////// МЕНЮ ////////////////
