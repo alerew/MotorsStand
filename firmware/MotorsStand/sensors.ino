@@ -4,8 +4,8 @@ ACS712 ampSen(AMP_PIN, CURRENT30A);
 #include "VoltageSensor.h"
 VoltageSensor voltSen(VOLT_PIN, 30000, 7500);
 
-#include "Tachometer.h"
-Tachometer tachometer;
+#include "AnalogTachometer.h"
+AnalogTachometer tachometer(TACHO_PIN);
 
 #if TEMP == 1
 #include <Adafruit_MLX90614.h>
@@ -13,6 +13,7 @@ Adafruit_MLX90614 tempSen;
 #endif
 
 void readSensors() {
+  tachometer.tick();
   if (sensorsTmr.isReady()) {
     data.thrust = (uint16_t)abs(filt.set(readThrust()));
     data.amperage = abs(ampSen.read());
@@ -32,12 +33,8 @@ void readSensors() {
 }
 
 void initSensors() {
-  attachInterrupt(0, tacho, FALLING);
   initTenzo();
 #if TEMP == 1
   tempSen.begin();
 #endif
-}
-void tacho() {
-  tachometer.tick();
 }

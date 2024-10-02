@@ -2,7 +2,7 @@
 #define VOLT_PIN A1  // пин вольтметра
 #define VIBR_PIN A2  // пин датчика вибрации
 #define MOTOR_PIN 5  // пин мотора
-#define DIST_PIN 2   // пин тахометра
+#define TACHO_PIN A3   // пин тахометра
 
 #define DOUT_PIN 3  // пин DT тензодатчика
 #define SCK_PIN 4   // пин SCK тензодатчика
