@@ -16,7 +16,7 @@ void showMenu() {
 #if LCD == 1
   if (lcdTmr.isReady()) {
     page = constrain(page, 0, 1);
-    arrowPos = constrain(arrowPos, 0, page == 0 ? 3 : 1);     // ограничиваем положение указателя
+    arrowPos = constrain(arrowPos, 0, page == 0 ? 4 : 1);     // ограничиваем положение указателя
 
     lcd.home();
     if (page == 0) {

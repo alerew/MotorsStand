@@ -7,6 +7,9 @@ VoltageSensor voltSen(VOLT_PIN, 30000, 7500);
 #include "AnalogTachometer.h"
 AnalogTachometer tachometer(TACHO_PIN);
 
+#include "VolAnalyzer.h"
+VolAnalyzer analyzer(A6);
+
 #if TEMP == 1
 #include <Adafruit_MLX90614.h>
 Adafruit_MLX90614 tempSen;
@@ -16,6 +19,8 @@ uint16_t raw = 0;
 
 void readSensors() {
   tachometer.tick();
+  //readMicrofon();
+  analyzer.tick();
   if (sensorsTmr.isReady()) {
     data.thrust = (uint16_t)abs(filt.set(readThrust()));
     data.amperage = abs(ampSen.read());
@@ -30,7 +35,7 @@ void readSensors() {
       data.efficiency = 0;
     else
       data.efficiency = data.thrust / data.power;
-     data.volume = (raw + 83.2073) / 11.003;
+     data.volume = analyzer.getRaw();
   }
   filt.tick();
 }
@@ -41,7 +46,7 @@ void initSensors() {
   tempSen.begin();
 #endif
 }
-
+/*
 void readMicrofon(){
   static byte count = 0;
   static uint32_t tmr = 0;
@@ -53,11 +58,12 @@ void readMicrofon(){
     _min = min(_min, read);
     if (++count >= 20) {
       raw = _max - _min;
-      _min = 0;
+      _min = 60000;
       count = 0;
-      _max = 60000;
+      _max = 0;
       return true;
     }
   }
   return false;
 }
+*/
