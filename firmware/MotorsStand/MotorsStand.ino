@@ -1,7 +1,7 @@
 #include "data.h"
 
 #define TENZO 1
-#define TEMP 0
+#define TEMP 1
 #define LCD 1
 #define SERIAL 1
 

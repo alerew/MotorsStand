@@ -52,6 +52,9 @@ void mainMenu() {
       lcd.setCursor(0, 1);
       printData(F("Efficiency"), TO_STR(data.efficiency));
       break;
+    case 4:
+      printData(F("Volume"), TO_STR(data.volume));
+      break;
   }
 }
 void settingsMenu() {

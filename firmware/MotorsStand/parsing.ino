@@ -12,7 +12,8 @@ void send() {
     addValue(str, TO_STR(data.rpm));
     addValue(str, TO_STR(settings.value));
     addValue(str, TO_STR(settings.motor));
-    addValue(str, TO_STR(settings.mode), ';');
+    addValue(str, TO_STR(settings.mode));
+    addValue(str, TO_STR(data.volume), ';');
 
     Serial.println(str);
   }

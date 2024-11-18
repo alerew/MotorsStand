@@ -3,6 +3,7 @@
 #define VIBR_PIN A2  // пин датчика вибрации
 #define MOTOR_PIN 5  // пин мотора
 #define TACHO_PIN A3   // пин тахометра
+#define MICROFON_PIN A6   // пин микрофона
 
 #define DOUT_PIN 3  // пин DT тензодатчика
 #define SCK_PIN 4   // пин SCK тензодатчика
@@ -20,6 +21,7 @@ struct Data {
   uint16_t rpm = 0;
   float power = 0;
   float efficiency = 0;
+  uint16_t volume = 0;
 };
 
 struct Settings {
@@ -36,10 +38,10 @@ Filter filt(0.5);  // фильтр тензодатчика
 
 #include "Timer.h"
 
-Timer sensorsTmr(500, true);
-Timer sendTmr(1000, true);
-Timer lcdTmr(500, true);
-Timer autoTmr(100, false);
+Timer sensorsTmr(300, true);
+Timer sendTmr(300, true);
+Timer lcdTmr(1000, true);
+Timer autoTmr(200, true);
 
 
 //////////////// МЕНЮ ////////////////
