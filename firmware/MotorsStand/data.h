@@ -28,6 +28,7 @@ struct Settings {
   byte motor = 0;
   byte value = 0;
   byte mode = 0;    // 0 - ручное измерение, 1 - авто измерение
+  byte count = 2;   // количество лопастей
 };
 
 Data data;

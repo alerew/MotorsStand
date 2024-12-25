@@ -27,7 +27,7 @@ void readSensors() {
     data.voltage = voltSen.read();
     data.power = data.amperage * data.voltage;
     data.vibration = 1023 - analogRead(VIBR_PIN);
-    data.rpm = tachometer.getRPM() / 2;
+    data.rpm = tachometer.getRPM() / settings.count;
 #if TEMP == 1
     data.temp = tempSen.readObjectTempC();
 #endif
@@ -35,7 +35,7 @@ void readSensors() {
       data.efficiency = 0;
     else
       data.efficiency = data.thrust / data.power;
-     data.volume = analyzer.getRaw();
+     data.volume = round(15.993 * log((float)analyzer.getRaw()) + 2.6373);
   }
   filt.tick();
 }

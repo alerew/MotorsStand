@@ -61,6 +61,9 @@ byte parsing() {
         case 3:
           settings.mode = constrain(recData[1], 0, 1);
           break;
+        case 4:
+          settings.count = constrain(recData[1], 1, 10);
+          break;
       }
       return count;
     }
