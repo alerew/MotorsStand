@@ -34,7 +34,7 @@ byte parsing() {
   static bool startParse = false;
   static byte count = 0;
   static char buf[10] = { 0 };  // буфер пакета
-  static byte recData[2];      // принятые данные
+  static int recData[2];      // принятые данные
 
   if (Serial.available()) {
     char c = Serial.read();
@@ -64,6 +64,15 @@ byte parsing() {
         case 4:
           settings.count = constrain(recData[1], 1, 10);
           break;
+        case 5:
+          sensorsTmr.setInterval(constrain(recData[1], 1, 1000));
+          break;
+        case 6:
+          sendTmr.setInterval(constrain(recData[1], 1, 1000));
+          break;
+        case 7:
+          lcdTmr.setInterval(constrain(recData[1], 1, 1000));
+          break;
       }
       return count;
     }
@@ -73,7 +82,7 @@ byte parsing() {
   }
   return 0;
 }
-void parseBytes(char* str, byte* data) {
+void parseBytes(char* str, int* data) {
   byte count = 0;
   char* offset = str;
   while (true) {
