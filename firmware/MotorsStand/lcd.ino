@@ -54,13 +54,15 @@ void mainMenu() {
       break;
     case 4:
       printData(F("Volume"), TO_STR(data.volume));
+      lcd.setCursor(0, 1);
+      printData(F("Efficiency"), TO_STR(data.efficiency));
       break;
   }
 }
 void settingsMenu() {
   printData(0, F("Motor"), (settings.motor ? F("On") : F("Off")));
   lcd.setCursor(0, 1);
-  printData(1, F("Value"), TO_STR(settings.value));
+  lcd.print(F("                "));
 }
 
 

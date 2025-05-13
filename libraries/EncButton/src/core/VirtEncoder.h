@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
+#include "flags.h"
 #include "io.h"
 
 // ===================== CONST ======================
@@ -26,51 +27,51 @@ class VirtEncoder {
     }
     // ====================== SET ======================
     // инвертировать направление энкодера
-    void setEncReverse(const bool& rev) {
-        if (rev) set_ef(EB_REV);
-        else clr_ef(EB_REV);
+    void setEncReverse(const bool rev) {
+        if (rev) ef.set(EB_REV);
+        else ef.clear(EB_REV);
     }
 
     // установить тип энкодера (EB_STEP4_LOW, EB_STEP4_HIGH, EB_STEP2, EB_STEP1)
-    void setEncType(const uint8_t& type) {
-        flags = (flags & 0b11111100) | type;
+    void setEncType(const uint8_t type) {
+        ef.flags = (ef.flags & 0b11111100) | type;
     }
 
     // использовать обработку энкодера в прерывании
-    void setEncISR(const bool& use) {
-        write_ef(EB_EISR, use);
+    void setEncISR(const bool use) {
+        ef.write(EB_EISR, use);
     }
 
     // инициализация энкодера
-    void initEnc(const bool& e0, const bool& e1) {
+    void initEnc(const bool e0, const bool e1) {
         initEnc(e0 | (e1 << 1));
     }
 
     // инициализация энкодера совмещённым значением
-    void initEnc(const int8_t& v) {
+    void initEnc(const int8_t v) {
         prev = v;
     }
 
     // сбросить флаги событий
     void clear() {
-        if (read_ef(EB_ETRN_R)) clr_ef(EB_ETRN_R);
+        if (ef.read(EB_ETRN_R)) ef.clear(EB_ETRN_R);
     }
 
     // ====================== ОПРОС ======================
     // был поворот [событие]
     bool turn() {
-        return read_ef(EB_ETRN_R);
+        return ef.read(EB_ETRN_R);
     }
 
     // направление энкодера (1 или -1) [состояние]
     int8_t dir() {
-        return read_ef(EB_DIR) ? 1 : -1;
+        return ef.read(EB_DIR) ? 1 : -1;
     }
 
     // ====================== POLL ======================
     // ISR
     // опросить энкодер в прерывании. Вернёт 1 или -1 при вращении, 0 при остановке
-    int8_t tickISR(const bool& e0, const bool& e1) {
+    int8_t tickISR(const bool e0, const bool e1) {
         return tickISR(e0 | (e1 << 1));
     }
 
@@ -78,15 +79,15 @@ class VirtEncoder {
     int8_t tickISR(int8_t state) {
         state = pollEnc(state);
         if (state) {
-            set_ef(EB_ISR_F);
-            write_ef(EB_DIR, state > 0);
+            ef.set(EB_ISR_F);
+            ef.write(EB_DIR, state > 0);
         }
         return state;
     }
 
     // TICK
     // опросить энкодер. Вернёт 1 или -1 при вращении, 0 при остановке
-    int8_t tick(const bool& e0, const bool& e1) {
+    int8_t tick(const bool e0, const bool e1) {
         return tick(e0 | (e1 << 1));
     }
 
@@ -105,20 +106,20 @@ class VirtEncoder {
 
     // RAW
     // опросить энкодер без сброса события поворота
-    int8_t tickRaw(const bool& e0, const bool& e1) {
+    int8_t tickRaw(const bool e0, const bool e1) {
         return tickRaw(e0 | (e1 << 1));
     }
 
     // опросить энкодер без сброса события поворота
     int8_t tickRaw(int8_t state) {
-        if (read_ef(EB_ISR_F)) {
-            clr_ef(EB_ISR_F);
-            set_ef(EB_ETRN_R);
+        if (ef.read(EB_ISR_F)) {
+            ef.clear(EB_ISR_F);
+            ef.set(EB_ETRN_R);
             return dir();
         }
         if ((state >= 0) && (state = pollEnc(state))) {
-            write_ef(EB_DIR, state > 0);
-            set_ef(EB_ETRN_R);
+            ef.write(EB_DIR, state > 0);
+            ef.set(EB_ETRN_R);
             return state;
         }
         return 0;
@@ -131,17 +132,21 @@ class VirtEncoder {
 
     // POLL
     // опросить энкодер без установки события поворота (быстрее). Вернёт 1 или -1 при вращении, 0 при остановке
-    int8_t pollEnc(const bool& e0, const bool& e1) {
+    int8_t pollEnc(const bool e0, const bool e1) {
         return pollEnc(e0 | (e1 << 1));
     }
 
     // опросить энкодер без установки события поворота (быстрее). Вернёт 1 или -1 при вращении, 0 при остановке
     int8_t pollEnc(int8_t state) {
         if (prev != state) {
-            ecount += ((0x49941661 >> ((state | (prev << 2)) << 1)) & 0b11) - 1;
+            ecount += ((0x49941661 >> ((state | (prev << 2)) << 1)) & 0b11) - 1;  // faster
+            // switch (state | (prev << 2)) {
+            //     case 2: case 4: case 11: case 13: ecount++; break;
+            //     case 1: case 7: case 8: case 14: ecount--; break;
+            // }
             prev = state;
             if (!ecount) return 0;
-            switch (flags & 0b11) {
+            switch (ef.mask(0b11)) {
                 case EB_STEP4_LOW:
                     if (state != 0b11) return 0;  // skip 00, 01, 10
                     break;
@@ -152,7 +157,7 @@ class VirtEncoder {
                     if (state == 0b10 || state == 0b01) return 0;  // skip 10 01
                     break;
             }
-            state = ((ecount > 0) ^ read_ef(EB_REV)) ? 1 : -1;
+            state = ((ecount > 0) ^ ef.read(EB_REV)) ? 1 : -1;
             ecount = 0;
 #ifndef EB_NO_COUNTER
             counter += state;
@@ -168,22 +173,9 @@ class VirtEncoder {
 
     // ===================== PRIVATE =====================
    protected:
-    inline void set_ef(const uint16_t& x) __attribute__((always_inline)) {
-        flags |= x;
-    }
-    inline void clr_ef(const uint16_t& x) __attribute__((always_inline)) {
-        flags &= ~x;
-    }
-    inline void write_ef(const uint16_t& x, const bool& v) __attribute__((always_inline)) {
-        if (v) set_ef(x);
-        else clr_ef(x);
-    }
-    inline bool read_ef(const uint16_t& x) __attribute__((always_inline)) {
-        return flags & x;
-    }
+    encb::Flags<uint8_t> ef;
 
    private:
-    uint8_t flags = 0;
     int8_t prev : 4;
     int8_t ecount : 4;
 };

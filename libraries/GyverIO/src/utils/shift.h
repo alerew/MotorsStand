@@ -2,14 +2,15 @@
 
 #include <Arduino.h>
 
-#include "gio/gio.h"
+#include "../gio/gio.h"
 
 #define LSB_NORMAL 0b00
 #define MSB_NORMAL 0b01
 #define LSB_REVERSE 0b10
 #define MSB_REVERSE 0b11
 
-namespace gio::shift {
+namespace gio {
+namespace shift {
 
 // read
 // прочитать пакет. Вернёт true, если хотя бы один бит отличается
@@ -37,7 +38,8 @@ void send_cs(uint8_t dat_pin, uint8_t clk_pin, uint8_t cs_pin, uint8_t order, ui
 // отправить байт + cs пин
 void send_cs_byte(uint8_t dat_pin, uint8_t clk_pin, uint8_t cs_pin, uint8_t order, uint8_t data, uint8_t delay = 0);
 
-}  // namespace gio::shift
+}  // namespace shift
+}  // namespace gio
 
 /*
 us byte (MHz)

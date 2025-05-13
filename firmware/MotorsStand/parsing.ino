@@ -2,7 +2,7 @@ void send() {
 #if SERIAL == 1
   if (sendTmr.isReady()) {
     String str;
-    str.reserve(35);
+    str.reserve(50);
     str += "d";
     addValue(str, TO_STR(data.thrust));
     addValue(str, TO_STR(data.amperage));
@@ -33,7 +33,7 @@ void addValue(String& str, const String& value, char end) {
 byte parsing() {
   static bool startParse = false;
   static byte count = 0;
-  static char buf[10] = { 0 };  // буфер пакета
+  static char buf[12] = { 0 };  // буфер пакета
   static int recData[2];      // принятые данные
 
   if (Serial.available()) {
@@ -53,7 +53,7 @@ byte parsing() {
           tare();
           break;
         case 1:
-          settings.value = constrain(recData[1], 0, 180);
+          settings.value = constrain((byte)recData[1], 0, 180);
           break;
         case 2:
           settings.motor = constrain(recData[1], 0, 1);
@@ -76,7 +76,7 @@ byte parsing() {
       }
       return count;
     }
-    if (startParse && count < 9) {
+    if (startParse && count < 10) {
       buf[count++] = c;
     }
   }
