@@ -16,13 +16,13 @@ void showMenu() {
 #if LCD == 1
   if (lcdTmr.isReady()) {
     page = constrain(page, 0, 1);
-    arrowPos = constrain(arrowPos, 0, page == 0 ? 4 : 1);     // ограничиваем положение указателя
+    arrowPos = constrain(arrowPos, 0, page == 0 ? 4 : 1);  // ограничиваем положение указателя
 
     lcd.home();
     if (page == 0) {
-      mainMenu();       // главное меню
+      mainMenu();  // главное меню
     } else if (page == 1) {
-      settingsMenu();   // меню настроек
+      settingsMenu();  // меню настроек
     }
   }
 #endif
@@ -55,14 +55,14 @@ void mainMenu() {
     case 4:
       printData(F("Volume"), TO_STR(data.volume));
       lcd.setCursor(0, 1);
-      printData(F("Efficiency"), TO_STR(data.efficiency));
+      lcd.print(F("                "));
       break;
   }
 }
 void settingsMenu() {
   printData(0, F("Motor"), (settings.motor ? F("On") : F("Off")));
   lcd.setCursor(0, 1);
-  lcd.print(F("                "));
+  printData(1, F("Value"), TO_STR(settings.value));
 }
 
 
